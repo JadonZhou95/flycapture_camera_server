@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/include/flycapture_camera_server",
+                "/home/pictobot/catkin_ws/build/pointgrey_camera_driver/pointgrey_camera_driver/usr/include/flycapture",
+                "/home/pictobot/catkin_ws/devel/include/",
+                "/opt/ros/kinetic/include/"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}
