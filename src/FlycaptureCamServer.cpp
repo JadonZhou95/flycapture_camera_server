@@ -75,6 +75,36 @@ FlycaptureCamServer::FlycaptureCamServer(/* args */)
     ros::spin();
 }
 
+FlycaptureCamServer::~FlycaptureCamServer()
+{
+    // Turn trigger mode off.
+    triggerMode_.onOff = false;
+    error_ = cam_.SetTriggerMode(&triggerMode_);
+    if (error_ != PGRERROR_OK)
+    {
+        PrintError(error_);
+        exit(-1);
+    }
+
+    ROS_INFO("Finished grabbing images!");
+
+    // Stop capturing images
+    error_ = cam_.StopCapture();
+    if (error_ != PGRERROR_OK)
+    {
+        PrintError(error_);
+        exit(-1);
+    }
+
+    // Disconnect the camera
+    error_ = cam_.Disconnect();
+    if (error_ != PGRERROR_OK)
+    {
+        PrintError(error_);
+        exit(-1);
+    }
+}
+
 bool FlycaptureCamServer::getFCImageCallback(flycapture_camera_server::FlycaptureCam::Request &req,
                                         flycapture_camera_server::FlycaptureCam::Response &res)
 {

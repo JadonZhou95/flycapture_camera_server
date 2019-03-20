@@ -72,5 +72,5 @@ private:
 
 public:
     FlycaptureCamServer(/* args */);
-    ~FlycaptureCamServer(){};
+    ~FlycaptureCamServer();
 };
