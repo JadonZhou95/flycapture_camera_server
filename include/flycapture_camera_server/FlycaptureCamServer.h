@@ -69,8 +69,71 @@ private:
 
     void convertFcImage2RosMsg(const Image& fcImage, sensor_msgs::Image& rRosImage);
 
+    // set the camera property
+    bool setProperty(const FlyCapture2::PropertyType &type, const bool &autoSet, double &value);
+
+    /*!
+    * \brief Set the camera parameter including Video Mode and frames per second
+    * 
+    * This function is to set the camera paramter including Video Modes and Frames per Second 
+    * Refering to the user manual, video modes seems to control the resolution
+    */
+    void setVideoMode();
+
+    bool setFormat7(FlyCapture2::Mode &fmt7Mode, FlyCapture2::PixelFormat &fmt7PixFmt, 
+        uint16_t &roi_width, uint16_t &roi_height, uint16_t &roi_offset_x, uint16_t &roi_offset_y);
+
+    bool setWhiteBalance(bool auto_white_balance, uint16_t blue, uint16_t red);
+
+    /*!
+    * \brief Set the frame rate of camera
+    * 
+    * This function is to set the camera frame rate (fps).
+    * \param frame_rate - the camera frame rate to be set
+    * 
+    * \return true if we can set the value as desired
+    */
+    bool setFrameRate(double frame_rate);
+
+    /*!
+    * \brief Set the exposure parameter of camera
+    * 
+    *  This function is to set the camera exposure
+    * \param auto_exposure - ture to enable the auto exposure; flase to disable the auto exposure
+    * \param exposure_value - exposure value to be used if the auto-exposure is disabled
+    * 
+    * \return true if we can set the value as desired
+    * */
+    bool setExposure(double exposure_value, bool auto_exposure = true);
+
+    bool setSharpness(double sharpness_value, bool auto_sharpness = true);
+
+    bool setSaturation(double saturation_value, bool auto_saturation = true);
+
+    // millisecond
+    bool setShutter(double shutter_value, bool auto_shutter = true);
+
+    bool setGain(double gain_value, bool auto_gain = true);
+
+    bool setBrightness(double brightness_value);
+
+    bool setGamma(double gamma_value);
+
+
 
 public:
     FlycaptureCamServer(/* args */);
     ~FlycaptureCamServer();
+
+    uint getGain();
+
+    uint getShutter();
+
+    uint getBrightness();
+
+    uint getExposure();
+
+    uint getWhiteBalance();
+
+    uint getROIPosition();
 };
