@@ -134,7 +134,7 @@ include_directories(${POINTGREY_INCLUDE_DIR})
 SET(POINTGREY_LIBRARIES_DIR /home/pictobot/catkin_ws/build/pointgrey_camera_driver/pointgrey_camera_driver/usr/lib/)
 link_directories(${POINTGREY_LIBRARIES_DIR})
 
-add_executable(${PROJECT_NAME} src/main.cpp src/FlycaptureCamServer.cpp src/stdafx.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp src/FlycaptureCamServer.cpp src/stdafx.cpp src/FlirSetting.cpp)
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} flycapture)
 add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS})
 

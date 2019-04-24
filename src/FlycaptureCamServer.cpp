@@ -56,14 +56,14 @@ FlycaptureCamServer::FlycaptureCamServer(/* args */)
     // set video mode including mode(resolution, pixel format)
     setVideoMode();
 
-    setExposure(1.35, false);
-    // setSharpness(1024.0);
-    // setSaturation(100.0);
-    setShutter(0.01 * 1000, false);
-    // setGain(0.0);
-    // setBrightness(0.0);
-    // setGamma(1.0);
-    // setWhiteBalance(true, 800, 550);
+    setExposure(settings.exposure, settings.auto_exposure);
+    setSharpness(settings.sharpness, settings.auto_sharpness);
+    setSaturation(settings.saturation, settings.auto_saturation);
+    setShutter(settings.shutter * 1000, settings.auto_shutter);
+    setGain(settings.gain, settings.auto_gain);
+    setWhiteBalance(settings.auto_white_balance, settings.white_balance_blue, settings.white_balance_red);
+    setBrightness(settings.brightness);
+    setGamma(settings.gamma);
 
     // Camera is ready, start capturing images
     error_ = cam_.StartCapture();
@@ -159,10 +159,10 @@ bool FlycaptureCamServer::getFCImageCallback(flycapture_camera_server::Flycaptur
 
     convertFcImage2RosMsg(convertedImage, res.image);
 
-    metadata_ = convertedImage.GetMetadata();
+    // metadata_ = convertedImage.GetMetadata();
 
-    ROS_INFO("Gain: %d, Shutter: %d, Brightness: %d, Exposure: %d, WhiteBalance: %d",
-                getGain(), getShutter(), getBrightness(), getExposure(), getWhiteBalance());
+    // ROS_INFO("Gain: %d, Shutter: %d, Brightness: %d, Exposure: %d, WhiteBalance: %d",
+                // getGain(), getShutter(), getBrightness(), getExposure(), getWhiteBalance());
 
     res.success = true;
 
@@ -420,6 +420,7 @@ bool FlycaptureCamServer::setProperty(const FlyCapture2::PropertyType &type, con
         exit(-1);
     }
 
+    std::cout << "pInfo state: " << pInfo.present << " " << __LINE__ << std::endl;
     if(pInfo.present)
     {
         Property prop;
@@ -428,6 +429,7 @@ bool FlycaptureCamServer::setProperty(const FlyCapture2::PropertyType &type, con
         prop.absControl = pInfo.absValSupported;
         prop.onOff = pInfo.onOffSupported;
 
+        cout << "Param range: " << pInfo.absMax << " " << pInfo.absMin << " " << value << std::endl;
         if(value < pInfo.absMin)
         {
             value = pInfo.absMin;
@@ -608,12 +610,12 @@ bool FlycaptureCamServer::setWhiteBalance(bool auto_white_balance, uint16_t blue
         }
 
         if (!prop_info.autoSupported) {
-        // This is typically because a color camera is in mono mode, so we set
-        // the red and blue to some reasonable value for later use
-        auto_white_balance = false;
-        blue = 800;
-        red = 550;
-        return false;
+            // This is typically because a color camera is in mono mode, so we set
+            // the red and blue to some reasonable value for later use
+            auto_white_balance = false;
+            blue = 800;
+            red = 550;
+            return false;
         }
         // Auto white balance is supported
         error_ = cam_.WriteRegister(white_balance_addr, enable);

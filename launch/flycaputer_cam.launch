@@ -1,0 +1,37 @@
+<launch>
+    <arg name="auto_exposure"       value="false"        doc="Enable the exposure automation" />
+    <arg name="exposure"            value="1.35"        doc="Defaulted exposure when disabling auto_exposure" />
+    <arg name="auto_sharpness"      value="true"        doc="Enable the sharpness automation" />
+    <arg name="sharpness"           value="1024.0"      doc="Defaulted sharpness when disabling auto_sharpness" />
+    <arg name="auto_saturation"     value="false"        doc="Enable the saturation automation" />
+    <arg name="saturation"          value="100.0"       doc="Defaulted saturation when disabling auto_saturation" />
+    <arg name="auto_shutter"        value="false"        doc="Enable the shutter automation" />
+    <arg name="shutter"             value="0.017"        doc="Defaulted shutter when disabling auto shutter. Unit: second" />
+    <arg name="auto_gain"           value="false"        doc="Enable the gain automation" />
+    <arg name="gain"                value="0.0"         doc="Defaulted gain when disabling auto gain" />
+    <arg name="auto_white_balance"  value="true"        doc="Enable the white balance" />
+    <arg name="white_balance_blue"  value="780"         doc="Defaulted white balance blue" />
+    <arg name="white_balance_red"   value="700"         doc="Defaulted white balance red" />
+    <arg name="gamma"               value="1.0"         doc="Defaulted gamma" />
+    <arg name="brightness"          value="0.0"         doc="Defaulted brightness when disabling auto_brightness" />
+
+    <group ns="flir_camera">
+        <param name="auto_exposure"         type="bool"     value="$(arg auto_exposure)" />
+        <param name="exposure"              type="double"   value="$(arg exposure)" />
+        <param name="auto_sharpness"        type="bool"     value="$(arg auto_sharpness)" />
+        <param name="sharpness"             type="double"   value="$(arg sharpness)" />
+        <param name="auto_saturation"       type="bool"     value="$(arg auto_saturation)" />
+        <param name="saturation"            type="double"   value="$(arg saturation)" />
+        <param name="auto_shutter"          type="bool"     value="$(arg auto_shutter)" />
+        <param name="shutter"               type="double"   value="$(arg shutter)" />
+        <param name="auto_gain"             type="bool"     value="$(arg auto_gain)" />
+        <param name="gain"                  type="double"   value="$(arg gain)" />
+        <param name="auto_white_balance"    type="bool"     value="$(arg auto_white_balance)" />
+        <param name="white_balance_blue"    type="int"      value="$(arg white_balance_blue)" />
+        <param name="white_balance_red"     type="int"      value="$(arg white_balance_red)" />
+        <param name="gamma"                 type="double"   value="$(arg gamma)" />
+        <param name="brightness"            type="double"   value="$(arg brightness)" />
+
+        <node name="flir_cam_server" pkg="flycapture_camera_server" type="flycapture_camera_server" output="screen" />
+    </group>
+</launch>

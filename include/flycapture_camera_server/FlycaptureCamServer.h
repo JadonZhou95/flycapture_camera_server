@@ -1,18 +1,18 @@
-// #include "stdafx.h"
-
 #include <time.h>
 #include <unistd.h>
-
 #include <iostream>
 #include <sstream>
 
 // Official Flycapture API
 #include "FlyCapture2.h"
 
+// ros header
 #include "ros/ros.h"
-#include "flycapture_camera_server/FlycaptureCam.h"
 #include <sensor_msgs/image_encodings.h> // ROS header for the different supported image encoding types
 #include <sensor_msgs/fill_image.h>
+
+#include "flycapture_camera_server/FlycaptureCam.h"
+#include "FlirSetting.h"
 
 using namespace FlyCapture2;
 using namespace std;
@@ -22,6 +22,9 @@ class FlycaptureCamServer
 private:
     ros::NodeHandle nh_;
     ros::ServiceServer flycapture_cam_server;
+
+    // parameter settings of the camera
+    FlirSetting settings;
 
     Error error_;   //error which stop the camera
     Camera cam_;    //cam object
